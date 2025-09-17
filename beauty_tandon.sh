@@ -17,15 +17,15 @@ cd /scratch/zl4789/liger
 
 
 for dataset_name in Beauty # Toys_and_Games Sports_and_Outdoors
-do   
+do
     python run.py \
         dataset=amazon \
         dataset.name=$dataset_name \
         seed=42 \
         device_id=0 \
-        method=base \
-        test_method=tiger \
-        experiment_id="tiger_$dataset_name"
+        method=setting \
+        test_method=liger \
+        experiment_id="liger_$dataset_name"
 done
 
 conda deactivate
