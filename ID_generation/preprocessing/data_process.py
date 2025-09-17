@@ -12,7 +12,9 @@ import html
 import json
 import os
 import re
+import ssl
 import statistics
+import urllib.request
 from collections import Counter, defaultdict
 from datetime import datetime
 from glob import glob
@@ -31,7 +33,7 @@ def parse(path):  # for Amazon
 
 
 def download_file(url, path):
-    response = requests.get(url)
+    response = requests.get(url, verify=False)
     if response.status_code == 200:
         with open(path, "wb") as f:
             f.write(response.content)
@@ -166,7 +168,21 @@ class Steam:
         os.makedirs(path, exist_ok=True)
         for d in ["games", "reviews"]:
             print(f"downloading steam from {self.urls[d]}")
-            file_name = wget.download(self.urls[d], out=path)
+            # Create unverified SSL context to bypass certificate verification
+            ssl_context = ssl.create_default_context()
+            ssl_context.check_hostname = False
+            ssl_context.verify_mode = ssl.CERT_NONE
+            
+            # Use urllib with SSL context instead of wget
+            url = self.urls[d]
+            filename = os.path.basename(url)
+            filepath = os.path.join(path, filename)
+            
+            # Create a custom opener with SSL context
+            opener = urllib.request.build_opener(urllib.request.HTTPSHandler(context=ssl_context))
+            urllib.request.install_opener(opener)
+            urllib.request.urlretrieve(url, filepath)
+            file_name = filepath
             content = gzip.open(file_name, "rb")
             content = content.read().decode("utf-8").split("\n")
             content = [
