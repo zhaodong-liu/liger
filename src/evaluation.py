@@ -383,6 +383,7 @@ def evaluate_dense_sids(
     item_embedding,
     method_config,
     KEYS=[
+        5,
         10,
     ],
 ):
@@ -451,6 +452,7 @@ def evaluate_dense_ids(
     item_embedding,
     method_config,
     KEYS=[
+        5,
         10,
     ],
 ):
@@ -517,6 +519,7 @@ def generate_then_dense(
     item2sid,
     item_embedding,
     KEYS=[
+        5,
         10,
     ],
     RETRIEVE_KEY=[20, 40, 60, 80, 100],

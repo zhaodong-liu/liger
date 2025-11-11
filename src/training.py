@@ -43,7 +43,7 @@ def evaluate_helper(
     item_embedding,
     method_config,
     keyword="eval",
-    KEYS=[10],  # recall@k, k list
+    KEYS=[5, 10],  # recall@k, k list
     RETRIEVE_KEY=[20, 40, 60, 80, 100],  # retrieve then rank
 ):
     """
